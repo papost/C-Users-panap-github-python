@@ -15,24 +15,25 @@ auth.set_access_token(access_token, access_secret)
 api = tweepy.API(auth)
 while True:
 	try:
-		screename = (raw_input("Γράψε το προφιλ του χρήστη που επιθυμείς: "))
-		#Παιρνω τα 10 τελευταια tweets
+		screename = (raw_input("ΓƒΓ±ΓΓΈΓ¥ Γ΄Γ― Γ°Γ±Γ―Γ¶Γ©Γ« Γ΄Γ―Γµ Γ·Γ±ΓΓ³Γ΄Γ§ Γ°Γ―Γµ Γ¥Γ°Γ©Γ¨ΓµΓ¬Γ¥ΓΓ²: "))
+		#ΓΓ΅Γ©Γ±Γ­ΓΉ Γ΄Γ΅ 10 Γ΄Γ¥Γ«Γ¥ΓµΓ΄Γ΅Γ©Γ΅ tweets
 		keim = " "
 		for status in tweepy.Cursor(api.user_timeline, screen_name=screename).items(10):
 			keim = keim+" "+ status._json['text']
 		break
 	except Exception:
 		print ("\n")
-		print("Το προφίλ που έγραψες δεν είναι έγκυρο.")
-#Αφαιρω αριθμους
+		print("Γ”Γ― Γ°Γ±Γ―Γ¶ΓΓ« Γ°Γ―Γµ ΓΓ£Γ±Γ΅ΓΈΓ¥Γ² Γ¤Γ¥Γ­ Γ¥ΓΓ­Γ΅Γ© ΓΓ£ΓªΓµΓ±Γ―.")
+#ΓΓ¶Γ΅Γ©Γ±ΓΉ Γ΅Γ±Γ©Γ¨Γ¬Γ―ΓµΓ²
 keim = ''.join([i for i in keim if not i.isdigit()])
 keim = ' '.join(re.sub("(#[A-Za-z0-9]+)|(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)"," ",keim).split())
-lista = keim.split (' ')
-#απαριθμω ποσες φορες εμφανιστηκε η καθε λεξη
-counter = collections.Counter(lista)
+list = keim.split (' ')
+list = [ x.encode('ascii', errors='replace') for x in list ]
+#Γ΅Γ°Γ΅Γ±Γ©Γ¨Γ¬ΓΉ Γ°Γ―Γ³Γ¥Γ² Γ¶Γ―Γ±Γ¥Γ² Γ¥Γ¬Γ¶Γ΅Γ­Γ©Γ³Γ΄Γ§ΓªΓ¥ Γ§ ΓªΓ΅Γ¨Γ¥ Γ«Γ¥Γ®Γ§
+counter = collections.Counter(list)
 popular = str((counter.most_common(1)))
-#κραταω μονο γραμματα (λεξη)
+#ΓªΓ±Γ΅Γ΄Γ΅ΓΉ Γ¬Γ―Γ­Γ― Γ£Γ±Γ΅Γ¬Γ¬Γ΅Γ΄Γ΅ (Γ«Γ¥Γ®Γ§)
 popular = re.sub('[^a-zA-Z]+', '', popular)
 
-print ("Η δημοφιλέστερη λέξη είναι η: "+popular+".")
+print ("Γ‡ Γ¤Γ§Γ¬Γ―Γ¶Γ©Γ«ΓΓ³Γ΄Γ¥Γ±Γ§ Γ«ΓΓ®Γ§ Γ¥ΓΓ­Γ΅Γ© Γ§: "+popular+".")
 
